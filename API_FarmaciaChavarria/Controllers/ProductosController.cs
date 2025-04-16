@@ -24,35 +24,115 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Productos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
+        public async Task<ActionResult<IEnumerable<ProductoDetailedDTO>>> GetProductos()
         {
-            return await _context.Productos.ToListAsync();
+            var productos = await (from p in _context.Productos
+                                   join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                   join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                   select new ProductoDetailedDTO
+                                   {
+                                       IdProducto = p.id_producto,
+                                       Nombre = p.nombre,
+                                       id_categoria = p.id_categoria,
+                                       id_laboratorio = p.id_laboratorio,
+                                       CategoriaNombre = c.nombre,
+                                       LaboratorioNombre = l.nombre,
+                                       Precio = p.precio,
+                                       Stock = p.stock,
+                                       FechaVencimiento = p.fecha_vencimiento
+                                   }).ToListAsync();
+
+            return productos;
         }
+
 
         // GET: api/Productos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductoDTO>> GetProducto(int id)
+        public async Task<ActionResult<ProductoDetailedDTO>> GetProducto(int id)
         {
-            var producto = await _context.Productos.FindAsync(id);
+            var producto = await (from p in _context.Productos
+                                  join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                  join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                  where p.id_producto == id
+                                  select new ProductoDetailedDTO
+                                  {
+                                      IdProducto = p.id_producto,
+                                      Nombre = p.nombre,
+                                      id_categoria = p.id_categoria,
+                                      id_laboratorio = p.id_laboratorio,
+                                      CategoriaNombre = c.nombre,
+                                      LaboratorioNombre = l.nombre,
+                                      Precio = p.precio,
+                                      Stock = p.stock,
+                                      FechaVencimiento = p.fecha_vencimiento
+                                  }).FirstOrDefaultAsync();
 
             if (producto == null)
             {
                 return NotFound();
             }
 
-            var prod = new ProductoDTO
-            {
-                id_producto = producto.id_producto,
-                id_categoria = producto.id_categoria,
-                id_laboratorio = producto.id_laboratorio,
-                precio = producto.precio,
-                fecha_vencimiento = producto.fecha_vencimiento,
-                nombre = producto.nombre,
-                stock = producto.stock
-            };
-
-            return prod;
+            return producto;
         }
+
+        // GET: api/Productos/nombre/ibuprofeno
+        [HttpGet("nombre/{nombre}")]
+        public async Task<ActionResult<IEnumerable<ProductoDetailedDTO>>> GetProductoByName(string nombre)
+        {
+            var producto = await (from p in _context.Productos
+                                  join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                  join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                  where p.nombre == nombre
+                                  select new ProductoDetailedDTO
+                                  {
+                                      IdProducto = p.id_producto,
+                                      Nombre = p.nombre,
+                                      id_categoria = p.id_categoria,
+                                      id_laboratorio = p.id_laboratorio,
+                                      CategoriaNombre = c.nombre,
+                                      LaboratorioNombre = l.nombre,
+                                      Precio = p.precio,
+                                      Stock = p.stock,
+                                      FechaVencimiento = p.fecha_vencimiento
+                                  }).ToListAsync();
+
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return producto;
+        }
+
+        // GET: api/Productos/nombre/ibuprofeno
+        [HttpGet("categoria/{id}")]
+        public async Task<ActionResult<IEnumerable<ProductoDetailedDTO>>> GetProductoByCategory(int id)
+        {
+            var producto = await (from p in _context.Productos
+                                  join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                  join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                  where p.id_categoria == id
+                                  select new ProductoDetailedDTO
+                                  {
+                                      IdProducto = p.id_producto,
+                                      Nombre = p.nombre,
+                                      id_categoria = p.id_categoria,
+                                      id_laboratorio = p.id_laboratorio,
+                                      CategoriaNombre = c.nombre,
+                                      LaboratorioNombre = l.nombre,
+                                      Precio = p.precio,
+                                      Stock = p.stock,
+                                      FechaVencimiento = p.fecha_vencimiento
+                                  }).ToListAsync();
+
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return producto;
+        }
+
 
         // PUT: api/Productos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
