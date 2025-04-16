@@ -49,6 +49,26 @@ namespace API_FarmaciaChavarria.Controllers
             return laboratorioDTO;
         }
 
+        // GET: api/Laboratorios/nombre/galo
+        [HttpGet("nombre/{nombre}")]
+        public async Task<ActionResult<IEnumerable<LaboratorioDTO>>> GetLaboratorioByNombre(string nombre)
+        {
+            var laboratorios = await (from c in _context.Laboratorios
+                                   where c.nombre == nombre
+                                   select new LaboratorioDTO
+                                   {
+                                       id_laboratorio = c.id_laboratorio,
+                                       nombre = c.nombre
+                                   }).ToListAsync();
+
+            if (laboratorios == null)
+            {
+                return NotFound();
+            }
+
+            return laboratorios;
+        }
+
         // PUT: api/Laboratorios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

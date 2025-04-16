@@ -49,6 +49,26 @@ namespace API_FarmaciaChavarria.Controllers
             return categ;
         }
 
+        // GET: api/Categorias/nombre/jarabe
+        [HttpGet("nombre/{nombre}")]
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriaByNombre(string nombre)
+        {
+            var categoria = await (from c in _context.Categorias
+                                   where c.nombre == nombre
+                                   select new CategoriaDTO
+                                   {
+                                       id_categoria = c.id_categoria,
+                                       nombre = c.nombre
+                                   }).ToListAsync();
+
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            return categoria;
+        }
+
         // PUT: api/Categorias/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
