@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
+using API_FarmaciaChavarria.Models.PaginationModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Drawing.Printing;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -24,9 +27,28 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Laboratorios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Laboratorio>>> GetLaboratorio()
+        public async Task<ActionResult<LaboratorioPagedResult>> GetLaboratorio([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 2)
         {
-            return await _context.Laboratorios.ToListAsync();
+            var query = _context.Laboratorios.AsQueryable();
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var laboratorios = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new LaboratorioPagedResult
+            {
+                Laboratorios = laboratorios,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
         }
 
         // GET: api/Laboratorios/5
@@ -51,22 +73,34 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Laboratorios/nombre/galo
         [HttpGet("nombre/{nombre}")]
-        public async Task<ActionResult<IEnumerable<LaboratorioDTO>>> GetLaboratorioByNombre(string nombre)
+        public async Task<ActionResult<LaboratorioPagedResult>> GetLaboratorioByNombre(string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 2)
         {
-            var laboratorios = await (from c in _context.Laboratorios
-                                   where c.nombre == nombre
-                                   select new LaboratorioDTO
+            var query = from c in _context.Laboratorios
+                                   where c.nombre.ToLower().Contains(nombre.ToLower())
+                                   select new Laboratorio
                                    {
                                        id_laboratorio = c.id_laboratorio,
                                        nombre = c.nombre
-                                   }).ToListAsync();
+                                   };
 
-            if (laboratorios == null)
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var laboratorios = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new LaboratorioPagedResult
             {
-                return NotFound();
-            }
+                Laboratorios = laboratorios,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
 
-            return laboratorios;
+            return Ok(result);
         }
 
         // PUT: api/Laboratorios/5

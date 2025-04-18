@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
+using API_FarmaciaChavarria.Models.PaginationModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Drawing.Printing;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -24,26 +27,44 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Productos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductoDetailedDTO>>> GetProductos()
+        public async Task<ActionResult<ProductoPagedResult>> GetProductos([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
-            var productos = await (from p in _context.Productos
-                                   join c in _context.Categorias on p.id_categoria equals c.id_categoria
-                                   join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
-                                   select new ProductoDetailedDTO
-                                   {
-                                       IdProducto = p.id_producto,
-                                       Nombre = p.nombre,
-                                       id_categoria = p.id_categoria,
-                                       id_laboratorio = p.id_laboratorio,
-                                       CategoriaNombre = c.nombre,
-                                       LaboratorioNombre = l.nombre,
-                                       Precio = p.precio,
-                                       Stock = p.stock,
-                                       FechaVencimiento = p.fecha_vencimiento
-                                   }).ToListAsync();
+            var query = from p in _context.Productos
+                        join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                        join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                        select new ProductoDetailedDTO
+                        {
+                            IdProducto = p.id_producto,
+                            Nombre = p.nombre,
+                            id_categoria = p.id_categoria,
+                            id_laboratorio = p.id_laboratorio,
+                            CategoriaNombre = c.nombre,
+                            LaboratorioNombre = l.nombre,
+                            Precio = p.precio,
+                            Stock = p.stock,
+                            FechaVencimiento = p.fecha_vencimiento
+                        };
 
-            return productos;
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
         }
+
 
 
         // GET: api/Productos/5
@@ -77,12 +98,12 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Productos/nombre/ibuprofeno
         [HttpGet("nombre/{nombre}")]
-        public async Task<ActionResult<IEnumerable<ProductoDetailedDTO>>> GetProductoByName(string nombre)
+        public async Task<ActionResult<ProductoPagedResult>> GetProductoByName(string nombre,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
-            var producto = await (from p in _context.Productos
+            var query = from p in _context.Productos
                                   join c in _context.Categorias on p.id_categoria equals c.id_categoria
                                   join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
-                                  where p.nombre == nombre
+                                  where p.nombre.ToLower().Contains(nombre.ToLower())
                                   select new ProductoDetailedDTO
                                   {
                                       IdProducto = p.id_producto,
@@ -94,21 +115,34 @@ namespace API_FarmaciaChavarria.Controllers
                                       Precio = p.precio,
                                       Stock = p.stock,
                                       FechaVencimiento = p.fecha_vencimiento
-                                  }).ToListAsync();
+                                  };
 
-            if (producto == null)
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
             {
-                return NotFound();
-            }
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
 
-            return producto;
+            return Ok(result);
         }
 
         // GET: api/Productos/nombre/ibuprofeno
         [HttpGet("categoria/{id}")]
-        public async Task<ActionResult<IEnumerable<ProductoDetailedDTO>>> GetProductoByCategory(int id)
+        public async Task<ActionResult<ProductoPagedResult>> GetProductoByCategory(int id, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
-            var producto = await (from p in _context.Productos
+
+            var query = from p in _context.Productos
                                   join c in _context.Categorias on p.id_categoria equals c.id_categoria
                                   join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
                                   where p.id_categoria == id
@@ -123,14 +157,26 @@ namespace API_FarmaciaChavarria.Controllers
                                       Precio = p.precio,
                                       Stock = p.stock,
                                       FechaVencimiento = p.fecha_vencimiento
-                                  }).ToListAsync();
+                                  };
 
-            if (producto == null)
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
             {
-                return NotFound();
-            }
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
 
-            return producto;
+            return Ok(result);
         }
 
 

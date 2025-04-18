@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
+using API_FarmaciaChavarria.Models.PaginationModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -24,9 +26,30 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Categorias
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
+        public async Task<ActionResult<IEnumerable<CategoriaPageResult>>> GetCategoria([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
-            return await _context.Categorias.ToListAsync();
+
+
+            var query =  _context.Categorias.AsQueryable();
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var categorias = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new CategoriaPageResult
+            {
+                Categorias = categorias,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
         }
 
         // GET: api/Categorias/5
@@ -51,22 +74,34 @@ namespace API_FarmaciaChavarria.Controllers
 
         // GET: api/Categorias/nombre/jarabe
         [HttpGet("nombre/{nombre}")]
-        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriaByNombre(string nombre)
+        public async Task<ActionResult<CategoriaPageResult>> GetCategoriaByNombre(string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
-            var categoria = await (from c in _context.Categorias
-                                   where c.nombre == nombre
-                                   select new CategoriaDTO
+            var query = from c in _context.Categorias
+                                   where c.nombre.ToLower().Contains(nombre.ToLower()) 
+                                   select new Categoria
                                    {
                                        id_categoria = c.id_categoria,
                                        nombre = c.nombre
-                                   }).ToListAsync();
+                                   };
 
-            if (categoria == null)
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var categorias = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new CategoriaPageResult
             {
-                return NotFound();
-            }
+                Categorias = categorias,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
 
-            return categoria;
+            return Ok(result);
         }
 
         // PUT: api/Categorias/5
