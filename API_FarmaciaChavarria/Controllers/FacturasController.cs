@@ -31,10 +31,13 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         [HttpGet("facturas-año")]
-        public async Task<ActionResult<IEnumerable<Factura>>> GetFacturasPorAño([FromQuery] int year, [FromQuery] int userId = 0)
+        public async Task<ActionResult<IEnumerable<Factura>>> GetFacturasPorAño(
+            [FromQuery] DateTime fechaInicio,
+            [FromQuery] DateTime fechaFin,
+            [FromQuery] int userId = 0)
         {
             var query = _context.Facturas
-         .Where(f => f.fecha_venta.Year == year);
+         .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta <= fechaFin);
 
             // Solo filtrar por usuario si userId es diferente de 0
             if (userId != 0)
@@ -47,11 +50,14 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         [HttpGet("ventas-por-mes-año")]
-        public async Task<ActionResult<IEnumerable<RevenueDataItem>>> GetVentasPorMesAño([FromQuery] int year, int userId = 0)
+        public async Task<ActionResult<IEnumerable<RevenueDataItem>>> GetVentasPorMesAño(
+            [FromQuery] DateTime fechaInicio,
+    [FromQuery] DateTime fechaFin,
+    int userId = 0)
         {
             // Obtener todas las facturas del año seleccionado
             var query = _context.Facturas
-                .Where(f => f.fecha_venta.Year == year);
+        .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta <= fechaFin);
 
             if (userId != 0)
             {
@@ -62,14 +68,15 @@ namespace API_FarmaciaChavarria.Controllers
 
             // Agrupar por mes y sumar los totales
             var ventasPorMes = facturas
-                .GroupBy(f => f.fecha_venta.Month) // Agrupa por mes (1-12)
-                .Select(g => new RevenueDataItem
-                {
-                    Date = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(g.Key), // "Ene", "Feb", etc.
-                    Revenue = g.Sum(f => f.total) // Suma de ventas del mes
-                })
-                .OrderBy(item => DateTime.ParseExact(item.Date, "MMM", CultureInfo.CurrentCulture).Month) // Ordenar cronológicamente
-                .ToList();
+    .GroupBy(f => new { f.fecha_venta.Year, f.fecha_venta.Month }) // Agrupar por año y mes
+    .OrderBy(g => new DateTime(g.Key.Year, g.Key.Month, 1))         // Ordenar antes de proyectar
+    .Select(g => new RevenueDataItem
+    {
+        Date = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(g.Key.Month)} {g.Key.Year}",
+        Revenue = g.Sum(f => f.total)
+    })
+    .ToList();
+
 
             return Ok(ventasPorMes);
         }
