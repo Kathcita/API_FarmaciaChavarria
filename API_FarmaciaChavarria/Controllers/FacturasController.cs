@@ -81,6 +81,114 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(ventasPorMes);
         }
 
+        [HttpGet("top-laboratorios")]
+        public async Task<ActionResult<IEnumerable<LaboratorioVentasDTO>>> GetTopLaboratorios(
+    [FromQuery] DateTime? fechaInicio = null,
+    [FromQuery] DateTime? fechaFin = null,
+    [FromQuery] int userId = 0)
+        {
+            // Consulta base con joins y filtros opcionales
+            var query = _context.Facturas
+                .Join(
+                    _context.Detalle_Facturas,
+                    f => f.id_factura,
+                    df => df.id_factura,
+                    (f, df) => new { Factura = f, Detalle = df }
+                )
+                .Join(
+                    _context.Productos,
+                    fd => fd.Detalle.id_producto,
+                    p => p.id_producto,
+                    (fd, p) => new { fd.Factura, fd.Detalle, Producto = p }
+                )
+                .Join(
+                    _context.Laboratorios,
+                    fdp => fdp.Producto.id_laboratorio,
+                    l => l.id_laboratorio,
+                    (fdp, l) => new { fdp.Factura, fdp.Detalle, fdp.Producto, Laboratorio = l }
+                );
+
+            // Filtros opcionales
+            if (fechaInicio != null && fechaFin != null)
+            {
+                query = query.Where(x => x.Factura.fecha_venta >= fechaInicio && x.Factura.fecha_venta <= fechaFin);
+            }
+
+            if (userId != 0)
+            {
+                query = query.Where(x => x.Factura.id_usuario == userId);
+            }
+
+            // Agrupar por laboratorio y calcular total de ventas
+            var resultado = await query
+    .GroupBy(x => new { x.Laboratorio.id_laboratorio, x.Laboratorio.nombre })
+    .Select(g => new LaboratorioVentasDTO
+    {
+        IdLaboratorio = g.Key.id_laboratorio,
+        NombreLaboratorio = g.Key.nombre,
+        TotalVentas = g.Sum(x => x.Detalle.cantidad * x.Detalle.precio_unitario) // ¡Calculado aquí!
+    })
+    .OrderByDescending(x => x.TotalVentas)
+    .Take(10)
+    .ToListAsync();
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("top-categorias")]
+        public async Task<ActionResult<IEnumerable<LaboratorioVentasDTO>>> GetTopCategorias(
+    [FromQuery] DateTime? fechaInicio = null,
+    [FromQuery] DateTime? fechaFin = null,
+    [FromQuery] int userId = 0)
+        {
+            // Consulta base con joins y filtros opcionales
+            var query = _context.Facturas
+                .Join(
+                    _context.Detalle_Facturas,
+                    f => f.id_factura,
+                    df => df.id_factura,
+                    (f, df) => new { Factura = f, Detalle = df }
+                )
+                .Join(
+                    _context.Productos,
+                    fd => fd.Detalle.id_producto,
+                    p => p.id_producto,
+                    (fd, p) => new { fd.Factura, fd.Detalle, Producto = p }
+                )
+                .Join(
+                    _context.Categorias,
+                    fdp => fdp.Producto.id_categoria,
+                    c => c.id_categoria,
+                    (fdp, c) => new { fdp.Factura, fdp.Detalle, fdp.Producto, Categoria = c }
+                );
+
+            // Filtros opcionales
+            if (fechaInicio != null && fechaFin != null)
+            {
+                query = query.Where(x => x.Factura.fecha_venta >= fechaInicio && x.Factura.fecha_venta <= fechaFin);
+            }
+
+            if (userId != 0)
+            {
+                query = query.Where(x => x.Factura.id_usuario == userId);
+            }
+
+            // Agrupar por laboratorio y calcular total de ventas
+            var resultado = await query
+    .GroupBy(x => new { x.Categoria.id_categoria, x.Categoria.nombre })
+    .Select(g => new CategoriaVentasDTO
+    {
+        IdCategoria = g.Key.id_categoria,
+        NombreCategoria = g.Key.nombre,
+        TotalVentas = g.Sum(x => x.Detalle.cantidad * x.Detalle.precio_unitario) // ¡Calculado aquí!
+    })
+    .OrderByDescending(x => x.TotalVentas)
+    .Take(10)
+    .ToListAsync();
+
+            return Ok(resultado);
+        }
+
         // GET: api/Facturas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Factura>> GetFactura(int id)
