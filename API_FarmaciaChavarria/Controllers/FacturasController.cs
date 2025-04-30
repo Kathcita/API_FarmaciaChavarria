@@ -136,7 +136,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         [HttpGet("top-categorias")]
-        public async Task<ActionResult<IEnumerable<LaboratorioVentasDTO>>> GetTopCategorias(
+        public async Task<ActionResult<IEnumerable<CategoriaVentasDTO>>> GetTopCategorias(
     [FromQuery] DateTime? fechaInicio = null,
     [FromQuery] DateTime? fechaFin = null,
     [FromQuery] int userId = 0)
@@ -173,7 +173,7 @@ namespace API_FarmaciaChavarria.Controllers
                 query = query.Where(x => x.Factura.id_usuario == userId);
             }
 
-            // Agrupar por laboratorio y calcular total de ventas
+            // Agrupar por categoría y calcular total de ventas
             var resultado = await query
     .GroupBy(x => new { x.Categoria.id_categoria, x.Categoria.nombre })
     .Select(g => new CategoriaVentasDTO
@@ -189,8 +189,55 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(resultado);
         }
 
-        // GET: api/Facturas/5
-        [HttpGet("{id}")]
+        [HttpGet("top-productos")]
+        public async Task<ActionResult<IEnumerable<ProductoVentasDTO>>> GetTopProductos(
+    [FromQuery] DateTime? fechaInicio = null,
+    [FromQuery] DateTime? fechaFin = null,
+    [FromQuery] int userId = 0)
+        {
+            var query = _context.Facturas
+                .Join(
+                    _context.Detalle_Facturas,
+                    f => f.id_factura,
+                    df => df.id_factura,
+                    (f, df) => new { Factura = f, Detalle = df }
+                )
+                .Join(
+                    _context.Productos,
+                    fd => fd.Detalle.id_producto,
+                    p => p.id_producto,
+                    (fd, p) => new { fd.Factura, fd.Detalle, Producto = p }
+                );
+
+            // Filtros opcionales
+            if (fechaInicio != null && fechaFin != null)
+            {
+                query = query.Where(x => x.Factura.fecha_venta >= fechaInicio && x.Factura.fecha_venta <= fechaFin);
+            }
+
+            if (userId != 0)
+            {
+                query = query.Where(x => x.Factura.id_usuario == userId);
+            }
+
+            // Agrupar por categoría y calcular total de ventas
+            var resultado = await query
+    .GroupBy(x => new { x.Producto.id_producto, x.Producto.nombre })
+    .Select(g => new ProductoVentasDTO
+    {
+        IdProducto = g.Key.id_producto,
+        NombreProducto = g.Key.nombre,
+        TotalVentas = g.Sum(x => x.Detalle.cantidad * x.Detalle.precio_unitario) // ¡Calculado aquí!
+    })
+    .OrderByDescending(x => x.TotalVentas)
+    .Take(15)
+    .ToListAsync();
+
+            return Ok(resultado);
+        }
+
+            // GET: api/Facturas/5
+            [HttpGet("{id}")]
         public async Task<ActionResult<Factura>> GetFactura(int id)
         {
             var factura = await _context.Facturas.FindAsync(id);
