@@ -9,6 +9,7 @@ using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.Models.Reporte_Models;
 using System.Globalization;
+using API_FarmaciaChavarria.Models.PaginationModels;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -31,10 +32,12 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         [HttpGet("facturas-año")]
-        public async Task<ActionResult<IEnumerable<Factura>>> GetFacturasPorAño(
+        public async Task<ActionResult<IEnumerable<FacturaPagedResult>>> GetFacturasPorAño(
             [FromQuery] DateTime fechaInicio,
             [FromQuery] DateTime fechaFin,
-            [FromQuery] int userId = 0)
+            [FromQuery] int userId = 0,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
             var query = _context.Facturas
          .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta <= fechaFin);
@@ -45,8 +48,24 @@ namespace API_FarmaciaChavarria.Controllers
                 query = query.Where(f => f.id_usuario == userId);
             }
 
-            return await query.ToListAsync();
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
+            var facturas = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new FacturaPagedResult
+            {
+                Facturas = facturas,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
         }
 
         [HttpGet("ventas-por-mes-año")]
@@ -236,8 +255,21 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(resultado);
         }
 
-            // GET: api/Facturas/5
-            [HttpGet("{id}")]
+        // Dato sobre el número de medicamentos disponibles
+        [HttpGet("NumeroMedicamentosDisponibles")]
+        public async Task<ActionResult<int>> GetNumeroMedicamentosDisponibles()
+        {
+            // Contar productos donde el stock es mayor a 0
+            var cantidad = await _context.Productos
+                .Where(p => p.stock > 0)  // Filtra solo los con stock disponible
+                .CountAsync();             // Cuenta los registros
+
+            return Ok(cantidad);
+        }
+
+
+        // GET: api/Facturas/5
+        [HttpGet("{id}")]
         public async Task<ActionResult<Factura>> GetFactura(int id)
         {
             var factura = await _context.Facturas.FindAsync(id);
@@ -249,6 +281,7 @@ namespace API_FarmaciaChavarria.Controllers
 
             return factura;
         }
+
 
         // PUT: api/Facturas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
