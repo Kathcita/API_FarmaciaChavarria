@@ -68,6 +68,50 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(result);
         }
 
+        // GET: api/Productos
+        [HttpGet("medicamentos-escasos")]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductosStockEscaso([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+            var query = from p in _context.Productos
+                        
+                        join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                        join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                        where p.stock_minimo >= p.stock
+                        select new ProductoDetailedDTO
+                        {
+                            IdProducto = p.id_producto,
+                            Nombre = p.nombre,
+                            id_categoria = p.id_categoria,
+                            id_laboratorio = p.id_laboratorio,
+                            CategoriaNombre = c.nombre,
+                            LaboratorioNombre = l.nombre,
+                            Precio = p.precio,
+                            Stock = p.stock,
+                            Stock_Minimo = p.stock_minimo,
+                            Efectos_secundarios = p.efectos_secundarios,
+                            Como_usar = p.como_usar,
+                            FechaVencimiento = p.fecha_vencimiento
+                        };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
 
 
         // GET: api/Productos/5
