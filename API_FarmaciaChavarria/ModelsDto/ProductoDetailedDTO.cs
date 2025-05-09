@@ -10,6 +10,9 @@
         public string LaboratorioNombre { get; set; }
         public decimal Precio { get; set; }
         public int Stock { get; set; }
+        public int Stock_Minimo { get; set; }
+        public string Efectos_secundarios { get; set; }
+        public string Como_usar { get; set; }
         public DateOnly FechaVencimiento { get; set; }
     }
 

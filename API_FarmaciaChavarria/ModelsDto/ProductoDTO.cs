@@ -8,6 +8,9 @@
         public int id_laboratorio { get; set; }
         public decimal precio { get; set; }
         public int stock { get; set; }
+        public int stock_minimo { get; set; }
+        public string efectos_secundarios { get; set; }
+        public string como_usar { get; set; }
         public DateOnly fecha_vencimiento { get; set; }
     }
 

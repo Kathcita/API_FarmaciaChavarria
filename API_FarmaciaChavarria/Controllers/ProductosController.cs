@@ -42,6 +42,9 @@ namespace API_FarmaciaChavarria.Controllers
                             LaboratorioNombre = l.nombre,
                             Precio = p.precio,
                             Stock = p.stock,
+                            Stock_Minimo = p.stock_minimo,
+                            Efectos_secundarios = p.efectos_secundarios,
+                            Como_usar = p.como_usar,
                             FechaVencimiento = p.fecha_vencimiento
                         };
 
@@ -85,6 +88,9 @@ namespace API_FarmaciaChavarria.Controllers
                                       LaboratorioNombre = l.nombre,
                                       Precio = p.precio,
                                       Stock = p.stock,
+                                      Stock_Minimo = p.stock_minimo,
+                                      Efectos_secundarios = p.efectos_secundarios,
+                                      Como_usar = p.como_usar,
                                       FechaVencimiento = p.fecha_vencimiento
                                   }).FirstOrDefaultAsync();
 
@@ -114,6 +120,9 @@ namespace API_FarmaciaChavarria.Controllers
                                       LaboratorioNombre = l.nombre,
                                       Precio = p.precio,
                                       Stock = p.stock,
+                                      Stock_Minimo = p.stock_minimo,
+                                      Efectos_secundarios = p.efectos_secundarios,
+                                      Como_usar = p.como_usar,
                                       FechaVencimiento = p.fecha_vencimiento
                                   };
 
@@ -156,6 +165,9 @@ namespace API_FarmaciaChavarria.Controllers
                                       LaboratorioNombre = l.nombre,
                                       Precio = p.precio,
                                       Stock = p.stock,
+                                      Stock_Minimo = p.stock_minimo,
+                                      Efectos_secundarios = p.efectos_secundarios,
+                                      Como_usar = p.como_usar,
                                       FechaVencimiento = p.fecha_vencimiento
                                   };
 
@@ -193,6 +205,9 @@ namespace API_FarmaciaChavarria.Controllers
                 id_laboratorio = productoDTO.id_laboratorio,
                 precio = productoDTO.precio,
                 stock = productoDTO.stock,
+                stock_minimo = productoDTO.stock_minimo,
+                efectos_secundarios = productoDTO.efectos_secundarios,
+                como_usar = productoDTO.como_usar,
                 fecha_vencimiento = productoDTO.fecha_vencimiento
             };
 
@@ -234,7 +249,10 @@ namespace API_FarmaciaChavarria.Controllers
                 id_laboratorio = productoDTO.id_laboratorio,
                 precio = productoDTO.precio,
                 stock = productoDTO.stock,
-                fecha_vencimiento = productoDTO.fecha_vencimiento
+                stock_minimo = productoDTO.stock_minimo,
+                fecha_vencimiento = productoDTO.fecha_vencimiento,
+                efectos_secundarios = productoDTO.efectos_secundarios,
+                como_usar = productoDTO.como_usar,
             };
 
             _context.Productos.Add(producto);
