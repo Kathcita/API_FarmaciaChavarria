@@ -10,6 +10,7 @@ using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.Models.Reporte_Models;
 using System.Globalization;
 using API_FarmaciaChavarria.Models.PaginationModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -256,16 +257,126 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // Dato sobre el número de medicamentos disponibles
-        [HttpGet("NumeroMedicamentosDisponibles")]
-        public async Task<ActionResult<int>> GetNumeroMedicamentosDisponibles()
+        [HttpGet("DashboardData")]
+        public async Task<ActionResult<DashboardData>> GetNumeroMedicamentosDisponibles()
         {
+
+            var now = DateTime.Now;
+
+            // Suma del total de ventas del mes
+            var fechaInicio = new DateTime(now.Year, now.Month, 1);
+            var fechaFin = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+
+        var ventasDelMes = await _context.Facturas
+                .Where(v => v.fecha_venta >= fechaInicio && v.fecha_venta < fechaFin)
+                .SumAsync(v => v.total);
+
+            // Contar medicamentos con stock menor al stock mínimo designado
+            var medicamentosEscasos = await _context.Productos
+                .CountAsync(p => p.stock <= p.stock_minimo);
+
             // Contar productos donde el stock es mayor a 0
-            var cantidad = await _context.Productos
+            var medicamentosDisponibles = await _context.Productos
                 .Where(p => p.stock > 0)  // Filtra solo los con stock disponible
                 .CountAsync();             // Cuenta los registros
 
-            return Ok(cantidad);
+            // Contar todas las facturas realizadas en el mes actual
+            var totalFacturasDelMes = await _context.Facturas
+                .Where(v => v.fecha_venta >= fechaInicio && v.fecha_venta < fechaFin)
+            .CountAsync();
+
+            var totalMedicamentosVendidosDelMes = await _context.Facturas
+            .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta < fechaFin)
+            .Join(
+                _context.Detalle_Facturas,
+                f => f.id_factura,
+                df => df.id_factura,
+                (f, df) => df.cantidad)
+                .SumAsync();
+
+            var medicamentosTotales = await _context.Productos.CountAsync();
+
+            var categoriasTotales = await _context.Categorias.CountAsync();
+
+            var proveedoresTotales = await _context.Proveedores.CountAsync();
+
+            var usuariosTotales = await _context.Usuarios.CountAsync();
+
+            var porcentaje = (medicamentosDisponibles / medicamentosTotales) * 100;
+
+            string producto = await ObtenerProductoMasVendidoDelMes();
+
+            var estado = "";
+            if(porcentaje >= 30)
+            {
+                estado = "Bien";
+            }
+            else
+            {
+                estado = "Mal";
+            }
+
+                return Ok(
+                    new DashboardData
+                    {
+                        VentasDelMes = ventasDelMes,
+                        MedicamentosDisponibles = medicamentosDisponibles,
+                        MedicamentosEscasos = medicamentosEscasos,
+                        MedicamentosTotales = medicamentosTotales,
+                        CategoriasTotales = categoriasTotales,
+                        TotalFacturasDelMes = totalFacturasDelMes,
+                        TotalMedicamentosVendidosDelMes = totalMedicamentosVendidosDelMes,
+                        TotalProveedores = proveedoresTotales,
+                        TotalUsuarios = usuariosTotales,
+                        ProductoMasVendido = producto,
+                        EstadoInventario = estado
+                    });
         }
+
+        private async Task<string> ObtenerProductoMasVendidoDelMes()
+        {
+            var now = DateTime.Now;
+            var fechaInicio = new DateTime(now.Year, now.Month, 1);
+            var fechaFin = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+
+            // Agrupar por producto y sumar cantidades
+            var productosVendidos = await _context.Facturas
+                .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta <= fechaFin)
+                .Join(
+                    _context.Detalle_Facturas,
+                    f => f.id_factura,
+                    df => df.id_factura,
+                    (f, df) => new { df.id_producto, df.cantidad }
+                )
+                .GroupBy(x => x.id_producto)
+                .Select(g => new
+                {
+                    id_producto = g.Key,
+                    cantidadTotal = g.Sum(x => x.cantidad)
+                })
+                .ToListAsync();
+
+            // Obtener la cantidad máxima
+            var maxCantidad = productosVendidos.Max(p => p.cantidadTotal);
+
+            // Filtrar productos con esa cantidad máxima
+            var productosMaximos = productosVendidos
+                .Where(p => p.cantidadTotal == maxCantidad)
+                .ToList();
+
+            // Elegir uno al azar
+            var random = new Random();
+            var seleccionado = productosMaximos[random.Next(productosMaximos.Count)];
+
+            // Obtener el nombre del producto
+            var producto = await _context.Productos
+                .Where(p => p.id_producto == seleccionado.id_producto)
+                .Select(p => p.nombre)
+                .FirstOrDefaultAsync();
+
+            return producto ?? "No disponible";
+        }
+
 
 
         // GET: api/Facturas/5
