@@ -11,6 +11,7 @@ using API_FarmaciaChavarria.Models.Reporte_Models;
 using System.Globalization;
 using API_FarmaciaChavarria.Models.PaginationModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -26,12 +27,14 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Facturas
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Factura>>> GetFacturas()
         {
             return await _context.Facturas.ToListAsync();
         }
 
+        [Authorize]
         [HttpGet("facturas-año")]
         public async Task<ActionResult<IEnumerable<FacturaPagedResult>>> GetFacturasPorAño(
             [FromQuery] DateTime fechaInicio,
@@ -69,6 +72,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("ventas-por-mes-año")]
         public async Task<ActionResult<IEnumerable<RevenueDataItem>>> GetVentasPorMesAño(
             [FromQuery] DateTime fechaInicio,
@@ -101,6 +105,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(ventasPorMes);
         }
 
+        [Authorize]
         [HttpGet("top-laboratorios")]
         public async Task<ActionResult<IEnumerable<LaboratorioVentasDTO>>> GetTopLaboratorios(
     [FromQuery] DateTime? fechaInicio = null,
@@ -155,6 +160,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(resultado);
         }
 
+        [Authorize]
         [HttpGet("top-categorias")]
         public async Task<ActionResult<IEnumerable<CategoriaVentasDTO>>> GetTopCategorias(
     [FromQuery] DateTime? fechaInicio = null,
@@ -209,6 +215,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(resultado);
         }
 
+        [Authorize]
         [HttpGet("top-productos")]
         public async Task<ActionResult<IEnumerable<ProductoVentasDTO>>> GetTopProductos(
     [FromQuery] DateTime? fechaInicio = null,
@@ -257,6 +264,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // Dato sobre el número de medicamentos disponibles
+        [Authorize]
         [HttpGet("DashboardData")]
         public async Task<ActionResult<DashboardData>> GetNumeroMedicamentosDisponibles()
         {
@@ -380,6 +388,7 @@ namespace API_FarmaciaChavarria.Controllers
 
 
         // GET: api/Facturas/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Factura>> GetFactura(int id)
         {
@@ -396,6 +405,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Facturas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFactura(int id, Factura factura)
         {
@@ -427,6 +437,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Facturas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Factura>> PostFactura(Factura factura)
         {
@@ -437,6 +448,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Facturas/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFactura(int id)
         {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -29,6 +30,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Compras/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Compra>> GetCompra(int id)
         {
@@ -44,6 +46,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Compras/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompra(int id, Compra compra)
         {
@@ -75,6 +78,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Compras
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Compra>> PostCompra(Compra compra)
         {
@@ -85,6 +89,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Compras/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompra(int id)
         {

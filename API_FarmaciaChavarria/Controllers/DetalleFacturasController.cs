@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -22,6 +23,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/DetalleFacturas
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DetalleFactura>>> GetDetalleFactura()
         {
@@ -29,6 +31,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/DetalleFacturas/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<DetalleFactura>> GetDetalleFactura(int id)
         {
@@ -44,6 +47,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/DetalleFacturas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDetalleFactura(int id, DetalleFactura detalleFactura)
         {
@@ -75,6 +79,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/DetalleFacturas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<DetalleFactura>> PostDetalleFactura(DetalleFactura detalleFactura)
         {
@@ -85,6 +90,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/DetalleFacturas/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDetalleFactura(int id)
         {

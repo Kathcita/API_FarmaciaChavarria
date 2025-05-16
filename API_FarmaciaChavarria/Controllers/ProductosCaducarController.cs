@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -23,6 +24,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos_Caducar
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductoCaducar>>> GetProductos_Caducar()
         {
@@ -30,6 +32,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos_Caducar/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductoCaducarDTO>> GetProductoCaducar(int id)
         {
@@ -52,6 +55,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Productos_Caducar/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProductoCaducar(int id, ProductoCaducarDTO productoCaducarDTO)
         {
@@ -91,6 +95,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Productos_Caducar
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ProductoCaducar>> PostProductoCaducar(ProductoCaducarDTO productoCaducarDTO)
         {
@@ -122,6 +127,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Productos_Caducar/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductoCaducar(int id)
         {
