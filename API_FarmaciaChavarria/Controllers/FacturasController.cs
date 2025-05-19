@@ -364,6 +364,11 @@ namespace API_FarmaciaChavarria.Controllers
                 })
                 .ToListAsync();
 
+            if (productosVendidos == null || productosVendidos.Count == 0)
+            {
+                return "No disponible";
+            }
+
             // Obtener la cantidad máxima
             var maxCantidad = productosVendidos.Max(p => p.cantidadTotal);
 
@@ -414,6 +419,11 @@ namespace API_FarmaciaChavarria.Controllers
                 return BadRequest();
             }
 
+            if (factura.total <= 0)
+            {
+                return BadRequest("El total de la factura no puede ser menor o igual que 0");
+            }
+
             _context.Entry(factura).State = EntityState.Modified;
 
             try
@@ -441,6 +451,12 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Factura>> PostFactura(Factura factura)
         {
+
+            if(factura.total <= 0)
+            {
+                return BadRequest("El total de la factura no puede ser menor o igual que 0");
+            }
+
             _context.Facturas.Add(factura);
             await _context.SaveChangesAsync();
 

@@ -342,6 +342,37 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducto(int id, ProductoDTO productoDTO)
         {
+
+            if (productoDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de producto no puede estar vacío");
+            }
+
+            if (productoDTO.stock < 0)
+            {
+                return BadRequest("El campo stock no puede ser menor que 0");
+            }
+
+            if (productoDTO.stock_minimo <= 0)
+            {
+                return BadRequest("El campo stock mínimo no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.precio <= 0)
+            {
+                return BadRequest("El campo precio no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.efectos_secundarios.Length > 500)
+            {
+                return UnprocessableEntity("El campo efectos secundarios no debe superar los 500 caracteres");
+            }
+
+            if (productoDTO.como_usar.Length > 500)
+            {
+                return UnprocessableEntity("El campo 'como usar' no debe superar los 500 caracteres");
+            }
+
             var producto = new Producto
             {
                 id_producto = productoDTO.id_producto,
@@ -388,6 +419,41 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Producto>> PostProducto(ProductoDTO productoDTO)
         {
+            if (productoDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de producto no puede estar vacío");
+            }
+
+            if (productoDTO.stock < 0)
+            {
+                return BadRequest("El campo stock no puede ser menor que 0");
+            }
+
+            if (productoDTO.stock_minimo <= 0)
+            {
+                return BadRequest("El campo stock mínimo no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.precio <= 0)
+            {
+                return BadRequest("El campo precio no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.efectos_secundarios.Length > 500)
+            {
+                return BadRequest("El campo efectos secundarios no debe superar los 500 caracteres");
+            }
+
+            if (productoDTO.como_usar.Length > 500)
+            {
+                return UnprocessableEntity("El campo 'como usar' no debe superar los 500 caracteres");
+            }
+
+            if (productoDTO.fecha_vencimiento < DateOnly.FromDateTime(DateTime.Today))
+            {
+                return UnprocessableEntity("La fecha de vencimiento no puede ser menor que la fecha actual");
+            }
+
             var producto = new Producto
             {
                 nombre = productoDTO.nombre,

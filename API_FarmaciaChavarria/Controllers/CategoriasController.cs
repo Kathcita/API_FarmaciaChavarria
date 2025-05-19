@@ -119,12 +119,16 @@ namespace API_FarmaciaChavarria.Controllers
                 return BadRequest();
             }
 
+            if (categoria.nombre == "")
+            {
+                return BadRequest("El campo nombre de categoría no puede estar vacío");
+            }
+
             var categ = new Categoria
             {
                 id_categoria = categoria.id_categoria,
                 nombre = categoria.nombre
             };
-
 
             _context.Entry(categ).State = EntityState.Modified;
 
@@ -153,6 +157,11 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Categoria>> PostCategoria(CategoriaDTO categoria)
         {
+            if (categoria.nombre == "")
+            {
+                return BadRequest("El campo nombre de categoría no puede estar vacío");
+            }
+
             var categ = new Categoria
             {
                 id_categoria = categoria.id_categoria,

@@ -60,19 +60,20 @@ namespace API_FarmaciaChavarria.Controllers
         public async Task<IActionResult> PutProductoCaducar(int id, ProductoCaducarDTO productoCaducarDTO)
         {
 
-            var productoCaducar = new ProductoCaducarDTO
-            {
-                id_producto = productoCaducarDTO.id_producto,
-                fecha_vencimiento = productoCaducarDTO.fecha_vencimiento,
-                nombre = productoCaducarDTO.nombre
-            };
-
-            if (id != productoCaducar.id_producto)
+            if (id != productoCaducarDTO.id_producto)
             {
                 return BadRequest();
             }
 
-            _context.Entry(productoCaducar).State = EntityState.Modified;
+            var producto = await _context.Productos_Caducar.FindAsync(id);
+
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            producto.nombre = productoCaducarDTO.nombre;
+            producto.fecha_vencimiento = productoCaducarDTO.fecha_vencimiento;
 
             try
             {

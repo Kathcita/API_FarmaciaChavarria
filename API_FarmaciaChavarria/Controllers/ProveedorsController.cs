@@ -60,6 +60,10 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProveedor(int id, ProveedorDTO proveedorDTO)
         {
+            if (proveedorDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de proveedor no puede estar vacío");
+            }
 
             var proveedor = new Proveedor
             {
@@ -101,6 +105,11 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Proveedor>> PostProveedor(ProveedorDTO proveedorDTO)
         {
+            if (proveedorDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de proveedor no puede estar vacío");
+            }
+
             var proveedor = new Proveedor
             {
                 id_proveedor = proveedorDTO.id_proveedor,

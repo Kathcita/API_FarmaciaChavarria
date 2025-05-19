@@ -113,6 +113,12 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLaboratorio(int id, LaboratorioDTO laboratorioDTO)
         {
+
+            if (laboratorioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de laboratorio no puede estar vacío");
+            }
+
             var laboratorio = new Laboratorio
             {
                 id_laboratorio = laboratorioDTO.id_laboratorio,
@@ -152,6 +158,10 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Laboratorio>> PostLaboratorio(LaboratorioDTO LaboratorioDTO)
         {
+            if (LaboratorioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de laboratorio no puede estar vacío");
+            }
 
             var laboratorio = new Laboratorio
             {
