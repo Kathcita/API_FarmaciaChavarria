@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\juan1\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\proveedorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\proveedorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\juan1\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -30,19 +34,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ProveedorsController.cs",
+              "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
+              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
+              "ToolTip": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
+              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T15:33:07.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\LoginController.cs",
@@ -55,7 +64,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Program.cs",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Program.cs",
@@ -67,7 +76,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "GenerateToken.cs",
               "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Context\\GenerateToken.cs",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Context\\GenerateToken.cs",
@@ -79,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "LaboratoriosController.cs",
               "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\LaboratoriosController.cs",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\LaboratoriosController.cs",
@@ -91,7 +100,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "CategoriasController.cs",
               "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\CategoriasController.cs",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\CategoriasController.cs",
