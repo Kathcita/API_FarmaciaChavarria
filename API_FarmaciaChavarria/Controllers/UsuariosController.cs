@@ -61,6 +61,16 @@ namespace API_FarmaciaChavarria.Controllers
         public async Task<IActionResult> PutUsuario(int id, UsuarioDTO usuarioDTO)
         {
 
+            if (usuarioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de usuario no puede estar vacío");
+            }
+
+            if (usuarioDTO.pin.ToString().Length != 4)
+            {
+                return BadRequest("El campo pin debe constar de 4 dígitos");
+            }
+
             var usuario = new Usuario
             {
                 id_usuario = usuarioDTO.id_usuario,
@@ -101,6 +111,15 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(UsuarioDTO usuarioDTO)
         {
+            if (usuarioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de usuario no puede estar vacío");
+            }
+
+            if (usuarioDTO.pin.ToString().Length != 4)
+            {
+                return BadRequest("El campo pin debe constar de 4 dígitos");
+            }
 
             var usuario = new Usuario
             {

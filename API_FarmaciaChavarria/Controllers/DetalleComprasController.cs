@@ -56,6 +56,16 @@ namespace API_FarmaciaChavarria.Controllers
                 return BadRequest();
             }
 
+            if (detalleCompra.cantidad <= 0)
+            {
+                return BadRequest("El campo cantidad no puede ser menor o igual que 0");
+            }
+
+            if (detalleCompra.precio_unitario <= 0)
+            {
+                return BadRequest("El campo precio unitario no puede ser menor o igual que 0");
+            }
+
             _context.Entry(detalleCompra).State = EntityState.Modified;
 
             try
@@ -83,6 +93,16 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<DetalleCompra>> PostDetalleCompra(DetalleCompra detalleCompra)
         {
+            if (detalleCompra.cantidad <= 0)
+            {
+                return BadRequest("El campo cantidad no puede ser menor o igual que 0");
+            }
+
+            if (detalleCompra.precio_unitario <= 0)
+            {
+                return BadRequest("El campo precio unitario no puede ser menor o igual que 0");
+            }
+
             _context.Detalle_Compras.Add(detalleCompra);
             await _context.SaveChangesAsync();
 

@@ -39,8 +39,9 @@ namespace API_FarmaciaChavarria.Controllers
                 return Unauthorized("Contraseña incorrecta");
             }
 
-            var token = _generateToken.GenerateJwtToken(usuario.nombre);
-            return Ok(new { token });
+            var token = _generateToken.GenerateJwtToken(usuario.nombre, usuario.rol);
+            return Ok(new { token,
+            usuario.rol});
         }
 
         

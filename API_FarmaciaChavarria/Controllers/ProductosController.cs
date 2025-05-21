@@ -338,7 +338,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Productos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducto(int id, ProductoDTO productoDTO)
         {

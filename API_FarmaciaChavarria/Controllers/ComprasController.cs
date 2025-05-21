@@ -55,6 +55,11 @@ namespace API_FarmaciaChavarria.Controllers
                 return BadRequest();
             }
 
+            if (compra.total <= 0)
+            {
+                return BadRequest("El campo total de compra no puede ser igual o menor que 0");
+            }
+
             _context.Entry(compra).State = EntityState.Modified;
 
             try
@@ -82,6 +87,11 @@ namespace API_FarmaciaChavarria.Controllers
         [HttpPost]
         public async Task<ActionResult<Compra>> PostCompra(Compra compra)
         {
+            if (compra.total <= 0)
+            {
+                return BadRequest("El campo total de compra no puede ser igual o menor que 0");
+            }
+
             _context.Compras.Add(compra);
             await _context.SaveChangesAsync();
 
