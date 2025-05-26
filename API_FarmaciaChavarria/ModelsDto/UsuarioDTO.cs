@@ -1,4 +1,4 @@
-﻿namespace API_FarmaciaChavarria.ModelsDto
+﻿ namespace API_FarmaciaChavarria.ModelsDto
 {
     public class UsuarioDTO
     {
