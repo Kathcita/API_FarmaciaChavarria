@@ -3,6 +3,10 @@ using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -11,9 +15,12 @@ namespace API_FarmaciaChavarria.Controllers
     public class LoginController : Controller
     {
         private readonly AppDbContext _context;
-        public LoginController(AppDbContext context)
+        private readonly GenerateToken _generateToken;
+
+        public LoginController(AppDbContext context, GenerateToken generateToken)
         {
             _context = context;
+            _generateToken = generateToken;
         }
 
         [HttpPost]
@@ -32,7 +39,11 @@ namespace API_FarmaciaChavarria.Controllers
                 return Unauthorized("Contraseña incorrecta");
             }
 
-            return Ok(usuario);
+            var token = _generateToken.GenerateJwtToken(usuario.nombre, usuario.rol);
+            return Ok(new { token,
+            usuario.rol});
         }
+
+        
     }
 }

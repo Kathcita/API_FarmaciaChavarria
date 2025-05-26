@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -23,6 +24,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Usuarios
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
@@ -30,6 +32,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Usuarios/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UsuarioDTO>> GetUsuario(int id)
         {
@@ -53,9 +56,20 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Usuarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsuario(int id, UsuarioDTO usuarioDTO)
         {
+
+            if (usuarioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de usuario no puede estar vacío");
+            }
+
+            if (usuarioDTO.pin.ToString().Length != 4)
+            {
+                return BadRequest("El campo pin debe constar de 4 dígitos");
+            }
 
             var usuario = new Usuario
             {
@@ -93,9 +107,19 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(UsuarioDTO usuarioDTO)
         {
+            if (usuarioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de usuario no puede estar vacío");
+            }
+
+            if (usuarioDTO.pin.ToString().Length != 4)
+            {
+                return BadRequest("El campo pin debe constar de 4 dígitos");
+            }
 
             var usuario = new Usuario
             {
@@ -112,6 +136,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Usuarios/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {

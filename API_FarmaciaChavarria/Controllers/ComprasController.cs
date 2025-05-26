@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -29,6 +30,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Compras/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Compra>> GetCompra(int id)
         {
@@ -44,12 +46,18 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Compras/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompra(int id, Compra compra)
         {
             if (id != compra.id_compra)
             {
                 return BadRequest();
+            }
+
+            if (compra.total <= 0)
+            {
+                return BadRequest("El campo total de compra no puede ser igual o menor que 0");
             }
 
             _context.Entry(compra).State = EntityState.Modified;
@@ -75,9 +83,15 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Compras
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Compra>> PostCompra(Compra compra)
         {
+            if (compra.total <= 0)
+            {
+                return BadRequest("El campo total de compra no puede ser igual o menor que 0");
+            }
+
             _context.Compras.Add(compra);
             await _context.SaveChangesAsync();
 
@@ -85,6 +99,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Compras/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompra(int id)
         {

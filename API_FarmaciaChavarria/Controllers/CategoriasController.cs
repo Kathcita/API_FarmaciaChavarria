@@ -10,6 +10,7 @@ using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
 using API_FarmaciaChavarria.Models.PaginationModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -25,6 +26,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Categorias
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriaPageResult>>> GetCategoria([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
@@ -53,6 +55,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Categorias/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriaDTO>> GetCategoria(int id)
         {
@@ -73,6 +76,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Categorias/nombre/jarabe
+        [Authorize]
         [HttpGet("nombre/{nombre}")]
         public async Task<ActionResult<CategoriaPageResult>> GetCategoriaByNombre(string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
         {
@@ -105,7 +109,8 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // PUT: api/Categorias/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
+        [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategoria(int id, CategoriaDTO categoria)
         {
@@ -114,12 +119,16 @@ namespace API_FarmaciaChavarria.Controllers
                 return BadRequest();
             }
 
+            if (categoria.nombre == "")
+            {
+                return BadRequest("El campo nombre de categoría no puede estar vacío");
+            }
+
             var categ = new Categoria
             {
                 id_categoria = categoria.id_categoria,
                 nombre = categoria.nombre
             };
-
 
             _context.Entry(categ).State = EntityState.Modified;
 
@@ -144,9 +153,15 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Categorias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Categoria>> PostCategoria(CategoriaDTO categoria)
         {
+            if (categoria.nombre == "")
+            {
+                return BadRequest("El campo nombre de categoría no puede estar vacío");
+            }
+
             var categ = new Categoria
             {
                 id_categoria = categoria.id_categoria,
@@ -160,6 +175,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Categorias/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategoria(int id)
         {

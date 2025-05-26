@@ -10,6 +10,8 @@ using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.Models.Reporte_Models;
 using System.Globalization;
 using API_FarmaciaChavarria.Models.PaginationModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -25,12 +27,14 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Facturas
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Factura>>> GetFacturas()
         {
             return await _context.Facturas.ToListAsync();
         }
 
+        [Authorize]
         [HttpGet("facturas-año")]
         public async Task<ActionResult<IEnumerable<FacturaPagedResult>>> GetFacturasPorAño(
             [FromQuery] DateTime fechaInicio,
@@ -68,6 +72,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("ventas-por-mes-año")]
         public async Task<ActionResult<IEnumerable<RevenueDataItem>>> GetVentasPorMesAño(
             [FromQuery] DateTime fechaInicio,
@@ -100,6 +105,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(ventasPorMes);
         }
 
+        [Authorize]
         [HttpGet("top-laboratorios")]
         public async Task<ActionResult<IEnumerable<LaboratorioVentasDTO>>> GetTopLaboratorios(
     [FromQuery] DateTime? fechaInicio = null,
@@ -154,6 +160,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(resultado);
         }
 
+        [Authorize]
         [HttpGet("top-categorias")]
         public async Task<ActionResult<IEnumerable<CategoriaVentasDTO>>> GetTopCategorias(
     [FromQuery] DateTime? fechaInicio = null,
@@ -208,6 +215,7 @@ namespace API_FarmaciaChavarria.Controllers
             return Ok(resultado);
         }
 
+        [Authorize]
         [HttpGet("top-productos")]
         public async Task<ActionResult<IEnumerable<ProductoVentasDTO>>> GetTopProductos(
     [FromQuery] DateTime? fechaInicio = null,
@@ -256,19 +264,136 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // Dato sobre el número de medicamentos disponibles
-        [HttpGet("NumeroMedicamentosDisponibles")]
-        public async Task<ActionResult<int>> GetNumeroMedicamentosDisponibles()
+        [Authorize]
+        [HttpGet("DashboardData")]
+        public async Task<ActionResult<DashboardData>> GetNumeroMedicamentosDisponibles()
         {
+
+            var now = DateTime.Now;
+
+            // Suma del total de ventas del mes
+            var fechaInicio = new DateTime(now.Year, now.Month, 1);
+            var fechaFin = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+
+        var ventasDelMes = await _context.Facturas
+                .Where(v => v.fecha_venta >= fechaInicio && v.fecha_venta < fechaFin)
+                .SumAsync(v => v.total);
+
+            // Contar medicamentos con stock menor al stock mínimo designado
+            var medicamentosEscasos = await _context.Productos
+                .CountAsync(p => p.stock <= p.stock_minimo);
+
             // Contar productos donde el stock es mayor a 0
-            var cantidad = await _context.Productos
+            var medicamentosDisponibles = await _context.Productos
                 .Where(p => p.stock > 0)  // Filtra solo los con stock disponible
                 .CountAsync();             // Cuenta los registros
 
-            return Ok(cantidad);
+            // Contar todas las facturas realizadas en el mes actual
+            var totalFacturasDelMes = await _context.Facturas
+                .Where(v => v.fecha_venta >= fechaInicio && v.fecha_venta < fechaFin)
+            .CountAsync();
+
+            var totalMedicamentosVendidosDelMes = await _context.Facturas
+            .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta < fechaFin)
+            .Join(
+                _context.Detalle_Facturas,
+                f => f.id_factura,
+                df => df.id_factura,
+                (f, df) => df.cantidad)
+                .SumAsync();
+
+            var medicamentosTotales = await _context.Productos.CountAsync();
+
+            var categoriasTotales = await _context.Categorias.CountAsync();
+
+            var proveedoresTotales = await _context.Proveedores.CountAsync();
+
+            var usuariosTotales = await _context.Usuarios.CountAsync();
+
+            var porcentaje = (medicamentosDisponibles / medicamentosTotales) * 100;
+
+            string producto = await ObtenerProductoMasVendidoDelMes();
+
+            var estado = "";
+            if(porcentaje >= 30)
+            {
+                estado = "Bien";
+            }
+            else
+            {
+                estado = "Mal";
+            }
+
+                return Ok(
+                    new DashboardData
+                    {
+                        VentasDelMes = ventasDelMes,
+                        MedicamentosDisponibles = medicamentosDisponibles,
+                        MedicamentosEscasos = medicamentosEscasos,
+                        MedicamentosTotales = medicamentosTotales,
+                        CategoriasTotales = categoriasTotales,
+                        TotalFacturasDelMes = totalFacturasDelMes,
+                        TotalMedicamentosVendidosDelMes = totalMedicamentosVendidosDelMes,
+                        TotalProveedores = proveedoresTotales,
+                        TotalUsuarios = usuariosTotales,
+                        ProductoMasVendido = producto,
+                        EstadoInventario = estado
+                    });
+        }
+
+        private async Task<string> ObtenerProductoMasVendidoDelMes()
+        {
+            var now = DateTime.Now;
+            var fechaInicio = new DateTime(now.Year, now.Month, 1);
+            var fechaFin = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+
+            // Agrupar por producto y sumar cantidades
+            var productosVendidos = await _context.Facturas
+                .Where(f => f.fecha_venta >= fechaInicio && f.fecha_venta <= fechaFin)
+                .Join(
+                    _context.Detalle_Facturas,
+                    f => f.id_factura,
+                    df => df.id_factura,
+                    (f, df) => new { df.id_producto, df.cantidad }
+                )
+                .GroupBy(x => x.id_producto)
+                .Select(g => new
+                {
+                    id_producto = g.Key,
+                    cantidadTotal = g.Sum(x => x.cantidad)
+                })
+                .ToListAsync();
+
+            if (productosVendidos == null || productosVendidos.Count == 0)
+            {
+                return "No disponible";
+            }
+
+            // Obtener la cantidad máxima
+            var maxCantidad = productosVendidos.Max(p => p.cantidadTotal);
+
+            // Filtrar productos con esa cantidad máxima
+            var productosMaximos = productosVendidos
+                .Where(p => p.cantidadTotal == maxCantidad)
+                .ToList();
+
+            // Elegir uno al azar
+            var random = new Random();
+            var seleccionado = productosMaximos[random.Next(productosMaximos.Count)];
+
+            // Obtener el nombre del producto
+            var producto = await _context.Productos
+                .Where(p => p.id_producto == seleccionado.id_producto)
+                .Select(p => p.nombre)
+                .FirstOrDefaultAsync();
+
+            return producto ?? "No disponible";
         }
 
 
+
         // GET: api/Facturas/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Factura>> GetFactura(int id)
         {
@@ -285,12 +410,18 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Facturas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFactura(int id, Factura factura)
         {
             if (id != factura.id_factura)
             {
                 return BadRequest();
+            }
+
+            if (factura.total <= 0)
+            {
+                return BadRequest("El total de la factura no puede ser menor o igual que 0");
             }
 
             _context.Entry(factura).State = EntityState.Modified;
@@ -316,9 +447,16 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Facturas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Factura>> PostFactura(Factura factura)
         {
+
+            if(factura.total <= 0)
+            {
+                return BadRequest("El total de la factura no puede ser menor o igual que 0");
+            }
+
             _context.Facturas.Add(factura);
             await _context.SaveChangesAsync();
 
@@ -326,6 +464,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Facturas/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFactura(int id)
         {

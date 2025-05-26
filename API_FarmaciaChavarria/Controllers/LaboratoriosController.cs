@@ -11,6 +11,7 @@ using API_FarmaciaChavarria.ModelsDto;
 using API_FarmaciaChavarria.Models.PaginationModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Drawing.Printing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -26,6 +27,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Laboratorios
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<LaboratorioPagedResult>> GetLaboratorio([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 2)
         {
@@ -52,6 +54,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Laboratorios/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<LaboratorioDTO>> GetLaboratorio(int id)
         {
@@ -72,6 +75,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Laboratorios/nombre/galo
+        [Authorize]
         [HttpGet("nombre/{nombre}")]
         public async Task<ActionResult<LaboratorioPagedResult>> GetLaboratorioByNombre(string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 2)
         {
@@ -104,10 +108,17 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // PUT: api/Laboratorios/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
+        [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLaboratorio(int id, LaboratorioDTO laboratorioDTO)
         {
+
+            if (laboratorioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de laboratorio no puede estar vacío");
+            }
+
             var laboratorio = new Laboratorio
             {
                 id_laboratorio = laboratorioDTO.id_laboratorio,
@@ -143,9 +154,14 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Laboratorios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Laboratorio>> PostLaboratorio(LaboratorioDTO LaboratorioDTO)
         {
+            if (LaboratorioDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de laboratorio no puede estar vacío");
+            }
 
             var laboratorio = new Laboratorio
             {
@@ -160,6 +176,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Laboratorios/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLaboratorio(int id)
         {

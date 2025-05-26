@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
+using API_FarmaciaChavarria.Models.PaginationModels;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -21,15 +23,64 @@ namespace API_FarmaciaChavarria.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Proveedors
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Proveedor>>> GetProveedores()
+        public async Task<ActionResult<ProveedorPagedResult>> GetProveedores(int page = 1, int pageSize = 10)
         {
-            return await _context.Proveedores.ToListAsync();
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 10;
+
+            var totalItems = await _context.Proveedores.CountAsync();
+            var proveedores = await _context.Proveedores
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProveedorPagedResult
+            {
+                Proveedores = proveedores,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize)
+            };
+
+            return Ok(result);
+        }
+
+        // GET: api/Proveedors/buscar?nombre=Farmacia&page=1&pageSize=10
+        [Authorize]
+        [HttpGet("buscar")]
+        public async Task<ActionResult<ProveedorPagedResult>> BuscarProveedoresPorNombre(string nombre, int page = 1, int pageSize = 10)
+        {
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 10;
+
+            var query = _context.Proveedores
+                .Where(p => p.nombre.ToLower().Contains(nombre.ToLower()));
+
+            var totalItems = await query.CountAsync();
+
+            var proveedores = await query
+                .OrderBy(p => p.nombre)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProveedorPagedResult
+            {
+                Proveedores = proveedores,
+                TotalItems = totalItems,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize)
+            };
+
+            return Ok(result);
         }
 
         // GET: api/Proveedors/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProveedorDTO>> GetProveedor(int id)
         {
@@ -53,9 +104,14 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Proveedors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProveedor(int id, ProveedorDTO proveedorDTO)
         {
+            if (proveedorDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de proveedor no puede estar vacío");
+            }
 
             var proveedor = new Proveedor
             {
@@ -93,9 +149,15 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Proveedors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Proveedor>> PostProveedor(ProveedorDTO proveedorDTO)
         {
+            if (proveedorDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de proveedor no puede estar vacío");
+            }
+
             var proveedor = new Proveedor
             {
                 id_proveedor = proveedorDTO.id_proveedor,
@@ -111,6 +173,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Proveedors/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProveedor(int id)
         {
