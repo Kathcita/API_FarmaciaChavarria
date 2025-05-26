@@ -1,70 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\",
+  "WorkspaceRootPath": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\juan1\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\modelsdto\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\modelsdto\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\correoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\correoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\modelsdto\\userlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\modelsdto\\userlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\recuperarpincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\recuperarpincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\proveedorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\juan1\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\proveedorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\proveedorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\inventarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\inventarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\juan1\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\modelsdto\\proveedordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\modelsdto\\proveedordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\comprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\comprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\productoscaducarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\productoscaducarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\detallecomprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\detallecomprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\models\\productocaducar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\models\\productocaducar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\usuario\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|c:\\users\\juan1\\source\\repos\\api_farmaciachavarria\\api_farmaciachavarria\\modelsdto\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}|API_FarmaciaChavarria\\API_FarmaciaChavarria.csproj|solutionrelative:api_farmaciachavarria\\modelsdto\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -74,202 +26,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Program.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Program.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Program.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Program.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAAAA0AAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T21:50:11.602Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\appsettings.json",
+              "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\appsettings.json",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\appsettings.json",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\appsettings.json",
-              "RelativeToolTip": "API_FarmaciaChavarria\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAACKAAAA",
+              "ToolTip": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\appsettings.json*",
+              "RelativeToolTip": "API_FarmaciaChavarria\\appsettings.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAB9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-03T22:39:19.752Z",
+              "WhenOpened": "2025-05-26T20:19:37.122Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "UsuarioDTO.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAFAAAA",
+              "Title": "ProveedorDTO.cs",
+              "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\ProveedorDTO.cs",
+              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\ModelsDto\\ProveedorDTO.cs",
+              "ToolTip": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\ProveedorDTO.cs",
+              "RelativeToolTip": "API_FarmaciaChavarria\\ModelsDto\\ProveedorDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T18:44:16.939Z",
+              "WhenOpened": "2025-05-26T20:18:29.658Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CorreoService.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\CorreoService.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\CorreoService.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\CorreoService.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\CorreoService.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAYwBYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T02:08:18.854Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\UsuariosController.cs",
-              "ViewState": "AQIAAHcAAAAAAAAAAAAAAIYAAAABAAAA",
+              "Title": "UsuarioDTO.cs",
+              "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
+              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
+              "ToolTip": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
+              "RelativeToolTip": "API_FarmaciaChavarria\\ModelsDto\\UsuarioDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T20:42:55.07Z"
+              "WhenOpened": "2025-05-26T20:18:28.337Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserLogin.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\UserLogin.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\ModelsDto\\UserLogin.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\ModelsDto\\UserLogin.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\ModelsDto\\UserLogin.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T21:49:44.216Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RecuperarPinController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\RecuperarPinController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\RecuperarPinController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\RecuperarPinController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\RecuperarPinController.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAtwCgAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:37:14.114Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Models\\Usuario.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Models\\Usuario.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Models\\Usuario.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Models\\Usuario.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:53:24.538Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "ProveedorsController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
+              "DocumentMoniker": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
               "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
+              "ToolTip": "C:\\Users\\juan1\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
               "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\ProveedorsController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T21:58:23.929Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "InventariosController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\InventariosController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\InventariosController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\InventariosController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\InventariosController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:38:58.364Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ComprasController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ComprasController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\ComprasController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ComprasController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\ComprasController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:30:36.213Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ProductosCaducarController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProductosCaducarController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\ProductosCaducarController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\ProductosCaducarController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\ProductosCaducarController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:38:28.485Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "DetalleComprasController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\DetalleComprasController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\DetalleComprasController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\DetalleComprasController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\DetalleComprasController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:37:39.061Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ProductoCaducar.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Models\\ProductoCaducar.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Models\\ProductoCaducar.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Models\\ProductoCaducar.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Models\\ProductoCaducar.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAABSAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:54:19.463Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Controllers\\LoginController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Controllers\\LoginController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T20:02:10.975Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "API_FarmaciaChavarria\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Usuario\\source\\repos\\API_FarmaciaChavarria\\API_FarmaciaChavarria\\Properties\\launchSettings.json",
-              "RelativeToolTip": "API_FarmaciaChavarria\\Properties\\launchSettings.json",
-              "ViewState": "AQIAABIAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-03T22:39:34.958Z"
+              "WhenOpened": "2025-05-23T16:28:04.533Z",
+              "EditorCaption": ""
             }
           ]
         }
