@@ -103,6 +103,15 @@ namespace API_FarmaciaChavarria.Controllers
                 return BadRequest("El campo precio unitario no puede ser menor o igual que 0");
             }
 
+            // Buscar el producto
+            var producto = await _context.Productos.FindAsync(detalleCompra.id_producto);
+
+            if (producto == null)
+                return NotFound("Producto no encontrado");
+
+            // Restar la cantidad al stock del producto
+            producto.stock += detalleCompra.cantidad;
+
             _context.Detalle_Compras.Add(detalleCompra);
             await _context.SaveChangesAsync();
 
