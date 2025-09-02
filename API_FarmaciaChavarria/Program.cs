@@ -102,7 +102,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRateLimiter();
-app.MapControllers();
 
 app.UseHttpsRedirection();
 
