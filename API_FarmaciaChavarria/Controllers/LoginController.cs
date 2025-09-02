@@ -2,6 +2,7 @@
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,6 +24,7 @@ namespace API_FarmaciaChavarria.Controllers
             _generateToken = generateToken;
         }
 
+        [EnableRateLimiting("loginLimiter")]
         [HttpPost]
         public async Task<IActionResult> Login(UserLogin userLogin)
         {
