@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API_FarmaciaChavarria.Context;
+using API_FarmaciaChavarria.Controllers;
+using API_FarmaciaChavarria.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
-using API_FarmaciaChavarria.Context;
-using API_FarmaciaChavarria.Models;
-using API_FarmaciaChavarria.Controllers;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 [ApiController]
@@ -24,6 +25,7 @@ public class RecuperarPinController : ControllerBase
         _correo = correo;
     }
 
+    [EnableRateLimiting("loginLimiter")]
     [HttpPost]
     public IActionResult RecuperarPin([FromBody] RecuperarPinRequest request)
     {

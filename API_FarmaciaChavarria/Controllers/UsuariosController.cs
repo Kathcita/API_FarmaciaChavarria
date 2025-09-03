@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API_FarmaciaChavarria.Context;
+﻿using API_FarmaciaChavarria.Context;
 using API_FarmaciaChavarria.Models;
 using API_FarmaciaChavarria.ModelsDto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -24,6 +25,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Usuarios
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
@@ -32,6 +34,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Usuarios/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UsuarioDTO>> GetUsuario(int id)
@@ -56,6 +59,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Usuarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsuario(int id, UsuarioDTO usuarioDTO)
@@ -107,6 +111,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(UsuarioDTO usuarioDTO)
@@ -136,6 +141,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Usuarios/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsuario(int id)

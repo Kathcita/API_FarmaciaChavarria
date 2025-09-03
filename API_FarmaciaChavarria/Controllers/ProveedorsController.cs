@@ -1,15 +1,16 @@
-﻿using System;
+﻿using API_FarmaciaChavarria.Context;
+using API_FarmaciaChavarria.Models;
+using API_FarmaciaChavarria.Models.PaginationModels;
+using API_FarmaciaChavarria.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API_FarmaciaChavarria.Context;
-using API_FarmaciaChavarria.Models;
-using API_FarmaciaChavarria.ModelsDto;
-using Microsoft.AspNetCore.Authorization;
-using API_FarmaciaChavarria.Models.PaginationModels;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -23,6 +24,8 @@ namespace API_FarmaciaChavarria.Controllers
         {
             _context = context;
         }
+
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<ProveedorPagedResult>> GetProveedores(int page = 1, int pageSize = 10)
@@ -49,6 +52,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Proveedors/buscar?nombre=Farmacia&page=1&pageSize=10
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("buscar")]
         public async Task<ActionResult<ProveedorPagedResult>> BuscarProveedoresPorNombre(string nombre, int page = 1, int pageSize = 10)
@@ -80,6 +84,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Proveedors/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProveedorDTO>> GetProveedor(int id)
@@ -104,6 +109,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Proveedors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProveedor(int id, ProveedorDTO proveedorDTO)
@@ -149,6 +155,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Proveedors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Proveedor>> PostProveedor(ProveedorDTO proveedorDTO)
@@ -173,6 +180,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Proveedors/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProveedor(int id)
