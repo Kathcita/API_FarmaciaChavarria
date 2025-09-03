@@ -11,6 +11,7 @@ using API_FarmaciaChavarria.ModelsDto;
 using API_FarmaciaChavarria.Models.PaginationModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -26,6 +27,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Categorias
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriaPageResult>>> GetCategoria([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -55,6 +57,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Categorias/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriaDTO>> GetCategoria(int id)
@@ -76,6 +79,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Categorias/nombre/jarabe
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("nombre/{nombre}")]
         public async Task<ActionResult<CategoriaPageResult>> GetCategoriaByNombre(string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -109,7 +113,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // PUT: api/Categorias/5
-        
+        [EnableRateLimiting("globalLimiter")]
         [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategoria(int id, CategoriaDTO categoria)
@@ -153,6 +157,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Categorias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Categoria>> PostCategoria(CategoriaDTO categoria)
@@ -175,6 +180,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Categorias/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategoria(int id)

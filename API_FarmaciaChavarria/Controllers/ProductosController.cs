@@ -13,6 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Drawing.Printing;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace API_FarmaciaChavarria.Controllers
 {
@@ -28,6 +29,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<ProductoPagedResult>> GetProductos([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -72,6 +74,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("medicamentos-escasos")]
         public async Task<ActionResult<ProductoPagedResult>> GetProductosStockEscaso([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -119,6 +122,7 @@ namespace API_FarmaciaChavarria.Controllers
 
 
         // GET: api/Productos/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductoDetailedDTO>> GetProducto(int id)
@@ -152,6 +156,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos/nombre/ibuprofeno
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("nombre/{nombre}")]
         public async Task<ActionResult<ProductoPagedResult>> GetProductoByName(string nombre,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -197,6 +202,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos/categoria/1
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("categoria/{id}")]
         public async Task<ActionResult<ProductoPagedResult>> GetProductoByCategory(int id, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -243,6 +249,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // GET: api/Productos/categoría/1/nombre/ibuprofeno
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("categoria/{id}/nombre/{nombre}")]
         public async Task<ActionResult<ProductoPagedResult>> GetProductoByNameAndByCategory(int id, string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -287,7 +294,7 @@ namespace API_FarmaciaChavarria.Controllers
 
             return Ok(result);
         }
-
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpGet("productosPorCadudar")]
         public async Task<ActionResult<ProductoPagedResult>> GetProductosPorCadudar([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
@@ -338,6 +345,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // PUT: api/Productos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducto(int id, ProductoDTO productoDTO)
@@ -415,6 +423,7 @@ namespace API_FarmaciaChavarria.Controllers
 
         // POST: api/Productos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Producto>> PostProducto(ProductoDTO productoDTO)
@@ -474,6 +483,7 @@ namespace API_FarmaciaChavarria.Controllers
         }
 
         // DELETE: api/Productos/5
+        [EnableRateLimiting("globalLimiter")]
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProducto(int id)
