@@ -5,9 +5,9 @@ name: CI .NET
 
 on:
   push:
-    branches: [ "juan_workflow" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "juan_workflow" ]
+    branches: [ "main" ]
 
 jobs:
   build:
