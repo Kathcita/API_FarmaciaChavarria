@@ -23,9 +23,15 @@ jobs:
 
     - name: Mostrar versión de .NET
       run: dotnet --version
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
+    - name: Análisis de estilo con dotnet format
+      run: dotnet format --verify-no-changes
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
