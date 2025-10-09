@@ -1,9 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35728.132 d17.12
+VisualStudioVersion = 17.12.35728.132
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_FarmaciaChavarria", "API_FarmaciaChavarria\API_FarmaciaChavarria.csproj", "{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_FarmaciaChavarria", "API_FarmaciaChavarria\API_FarmaciaChavarria.csproj", "{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicios", "Servicios", "{CB481F4D-A60F-4FBD-8616-CC4ECE4A7871}"
+	ProjectSection(SolutionItems) = preProject
+		CorreoService.cs = CorreoService.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmarciaChavarriaApiTests", "FarmarciaChavarriaApiTests\FarmarciaChavarriaApiTests.csproj", "{2E6E45DC-7186-4E9F-88C1-18EDB55A4469}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +22,15 @@ Global
 		{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36465C4A-17C6-4AA3-B0E0-8531BA6A7070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E6E45DC-7186-4E9F-88C1-18EDB55A4469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E6E45DC-7186-4E9F-88C1-18EDB55A4469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E6E45DC-7186-4E9F-88C1-18EDB55A4469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E6E45DC-7186-4E9F-88C1-18EDB55A4469}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B86FA1C6-3358-44E8-8F95-C0180E44437C}
 	EndGlobalSection
 EndGlobal

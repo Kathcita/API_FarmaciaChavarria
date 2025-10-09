@@ -1,0 +1,508 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using API_FarmaciaChavarria.Context;
+using API_FarmaciaChavarria.Models;
+using API_FarmaciaChavarria.ModelsDto;
+using API_FarmaciaChavarria.Models.PaginationModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Drawing.Printing;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
+
+namespace API_FarmaciaChavarria.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductosController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public ProductosController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/Productos
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductos([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+            var query = from p in _context.Productos
+                        join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                        join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                        select new ProductoDetailedDTO
+                        {
+                            IdProducto = p.id_producto,
+                            Nombre = p.nombre,
+                            id_categoria = p.id_categoria,
+                            id_laboratorio = p.id_laboratorio,
+                            CategoriaNombre = c.nombre,
+                            LaboratorioNombre = l.nombre,
+                            Precio = p.precio,
+                            Stock = p.stock,
+                            Stock_Minimo = p.stock_minimo,
+                            Efectos_secundarios = p.efectos_secundarios,
+                            Como_usar = p.como_usar,
+                            FechaVencimiento = p.fecha_vencimiento
+                        };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+
+        // GET: api/Productos
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet("medicamentos-escasos")]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductosStockEscaso([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+            var query = from p in _context.Productos
+                        
+                        join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                        join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                        where p.stock_minimo >= p.stock
+                        select new ProductoDetailedDTO
+                        {
+                            IdProducto = p.id_producto,
+                            Nombre = p.nombre,
+                            id_categoria = p.id_categoria,
+                            id_laboratorio = p.id_laboratorio,
+                            CategoriaNombre = c.nombre,
+                            LaboratorioNombre = l.nombre,
+                            Precio = p.precio,
+                            Stock = p.stock,
+                            Stock_Minimo = p.stock_minimo,
+                            Efectos_secundarios = p.efectos_secundarios,
+                            Como_usar = p.como_usar,
+                            FechaVencimiento = p.fecha_vencimiento
+                        };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+
+
+        // GET: api/Productos/5
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductoDetailedDTO>> GetProducto(int id)
+        {
+            var producto = await (from p in _context.Productos
+                                  join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                  join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                  where p.id_producto == id
+                                  select new ProductoDetailedDTO
+                                  {
+                                      IdProducto = p.id_producto,
+                                      Nombre = p.nombre,
+                                      id_categoria = p.id_categoria,
+                                      id_laboratorio = p.id_laboratorio,
+                                      CategoriaNombre = c.nombre,
+                                      LaboratorioNombre = l.nombre,
+                                      Precio = p.precio,
+                                      Stock = p.stock,
+                                      Stock_Minimo = p.stock_minimo,
+                                      Efectos_secundarios = p.efectos_secundarios,
+                                      Como_usar = p.como_usar,
+                                      FechaVencimiento = p.fecha_vencimiento
+                                  }).FirstOrDefaultAsync();
+
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return producto;
+        }
+
+        // GET: api/Productos/nombre/ibuprofeno
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet("nombre/{nombre}")]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductoByName(string nombre,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+            var query = from p in _context.Productos
+                                  join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                  join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                  where p.nombre.ToLower().Contains(nombre.ToLower())
+                                  select new ProductoDetailedDTO
+                                  {
+                                      IdProducto = p.id_producto,
+                                      Nombre = p.nombre,
+                                      id_categoria = p.id_categoria,
+                                      id_laboratorio = p.id_laboratorio,
+                                      CategoriaNombre = c.nombre,
+                                      LaboratorioNombre = l.nombre,
+                                      Precio = p.precio,
+                                      Stock = p.stock,
+                                      Stock_Minimo = p.stock_minimo,
+                                      Efectos_secundarios = p.efectos_secundarios,
+                                      Como_usar = p.como_usar,
+                                      FechaVencimiento = p.fecha_vencimiento
+                                  };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+
+        // GET: api/Productos/categoria/1
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet("categoria/{id}")]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductoByCategory(int id, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+
+            var query = from p in _context.Productos
+                                  join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                                  join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                                  where p.id_categoria == id
+                                  select new ProductoDetailedDTO
+                                  {
+                                      IdProducto = p.id_producto,
+                                      Nombre = p.nombre,
+                                      id_categoria = p.id_categoria,
+                                      id_laboratorio = p.id_laboratorio,
+                                      CategoriaNombre = c.nombre,
+                                      LaboratorioNombre = l.nombre,
+                                      Precio = p.precio,
+                                      Stock = p.stock,
+                                      Stock_Minimo = p.stock_minimo,
+                                      Efectos_secundarios = p.efectos_secundarios,
+                                      Como_usar = p.como_usar,
+                                      FechaVencimiento = p.fecha_vencimiento
+                                  };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+
+        // GET: api/Productos/categoría/1/nombre/ibuprofeno
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet("categoria/{id}/nombre/{nombre}")]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductoByNameAndByCategory(int id, string nombre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+
+            var query = from p in _context.Productos
+                        join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                        join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                        where p.id_categoria == id && p.nombre.ToLower().Contains(nombre.ToLower())
+                        select new ProductoDetailedDTO
+                        {
+                            IdProducto = p.id_producto,
+                            Nombre = p.nombre,
+                            id_categoria = p.id_categoria,
+                            id_laboratorio = p.id_laboratorio,
+                            CategoriaNombre = c.nombre,
+                            LaboratorioNombre = l.nombre,
+                            Precio = p.precio,
+                            Stock = p.stock,
+                            Stock_Minimo = p.stock_minimo,
+                            Efectos_secundarios = p.efectos_secundarios,
+                            Como_usar = p.como_usar,
+                            FechaVencimiento = p.fecha_vencimiento
+                        };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpGet("productosPorCadudar")]
+        public async Task<ActionResult<ProductoPagedResult>> GetProductosPorCadudar([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 8)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+            var dentroDeTresMeses = hoy.AddMonths(3);
+
+            var query = from p in _context.Productos
+                        join c in _context.Categorias on p.id_categoria equals c.id_categoria
+                        join l in _context.Laboratorios on p.id_laboratorio equals l.id_laboratorio
+                        where p.fecha_vencimiento >= hoy && p.fecha_vencimiento <= dentroDeTresMeses
+                        orderby p.fecha_vencimiento ascending
+                        select new ProductoDetailedDTO
+                        {
+                            IdProducto = p.id_producto,
+                            Nombre = p.nombre,
+                            id_categoria = p.id_categoria,
+                            id_laboratorio = p.id_laboratorio,
+                            CategoriaNombre = c.nombre,
+                            LaboratorioNombre = l.nombre,
+                            Precio = p.precio,
+                            Stock = p.stock,
+                            Stock_Minimo = p.stock_minimo,
+                            Efectos_secundarios = p.efectos_secundarios,
+                            Como_usar = p.como_usar,
+                            FechaVencimiento = p.fecha_vencimiento
+                        };
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var productos = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new ProductoPagedResult
+            {
+                Productos = productos,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+
+        // PUT: api/Productos/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize(Roles = "Administrador")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProducto(int id, ProductoDTO productoDTO)
+        {
+
+            if (productoDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de producto no puede estar vacío");
+            }
+
+            if (productoDTO.stock < 0)
+            {
+                return BadRequest("El campo stock no puede ser menor que 0");
+            }
+
+            if (productoDTO.stock_minimo <= 0)
+            {
+                return BadRequest("El campo stock mínimo no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.precio <= 0)
+            {
+                return BadRequest("El campo precio no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.efectos_secundarios.Length > 500)
+            {
+                return UnprocessableEntity("El campo efectos secundarios no debe superar los 500 caracteres");
+            }
+
+            if (productoDTO.como_usar.Length > 500)
+            {
+                return UnprocessableEntity("El campo 'como usar' no debe superar los 500 caracteres");
+            }
+
+            var producto = new Producto
+            {
+                id_producto = productoDTO.id_producto,
+                nombre = productoDTO.nombre,
+                id_categoria = productoDTO.id_categoria,
+                id_laboratorio = productoDTO.id_laboratorio,
+                precio = productoDTO.precio,
+                stock = productoDTO.stock,
+                stock_minimo = productoDTO.stock_minimo,
+                efectos_secundarios = productoDTO.efectos_secundarios,
+                como_usar = productoDTO.como_usar,
+                fecha_vencimiento = productoDTO.fecha_vencimiento
+            };
+
+            if (id != producto.id_producto)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(producto).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductoExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Productos
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<Producto>> PostProducto(ProductoDTO productoDTO)
+        {
+            if (productoDTO.nombre == "")
+            {
+                return BadRequest("El campo nombre de producto no puede estar vacío");
+            }
+
+            if (productoDTO.stock < 0)
+            {
+                return BadRequest("El campo stock no puede ser menor que 0");
+            }
+
+            if (productoDTO.stock_minimo <= 0)
+            {
+                return BadRequest("El campo stock mínimo no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.precio <= 0)
+            {
+                return BadRequest("El campo precio no puede ser menor o igual que 0");
+            }
+
+            if (productoDTO.efectos_secundarios.Length > 500)
+            {
+                return BadRequest("El campo efectos secundarios no debe superar los 500 caracteres");
+            }
+
+            if (productoDTO.como_usar.Length > 500)
+            {
+                return UnprocessableEntity("El campo 'como usar' no debe superar los 500 caracteres");
+            }
+
+            if (productoDTO.fecha_vencimiento < DateOnly.FromDateTime(DateTime.Today))
+            {
+                return UnprocessableEntity("La fecha de vencimiento no puede ser menor que la fecha actual");
+            }
+
+            var producto = new Producto
+            {
+                nombre = productoDTO.nombre,
+                id_categoria = productoDTO.id_categoria,
+                id_laboratorio = productoDTO.id_laboratorio,
+                precio = productoDTO.precio,
+                stock = productoDTO.stock,
+                stock_minimo = productoDTO.stock_minimo,
+                fecha_vencimiento = productoDTO.fecha_vencimiento,
+                efectos_secundarios = productoDTO.efectos_secundarios,
+                como_usar = productoDTO.como_usar,
+            };
+
+            _context.Productos.Add(producto);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetProducto", new { id = producto.id_producto }, producto);
+        }
+
+        // DELETE: api/Productos/5
+        [EnableRateLimiting("globalLimiter")]
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProducto(int id)
+        {
+            var producto = await _context.Productos.FindAsync(id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            _context.Productos.Remove(producto);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ProductoExists(int id)
+        {
+            return _context.Productos.Any(e => e.id_producto == id);
+        }
+    }
+}
